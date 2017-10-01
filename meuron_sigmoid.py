@@ -14,6 +14,7 @@ class Neuron:
         self.input_sum += inp
 
     def getOutput(self):
+      #シグモイド関数の結果をoutputに代入する
       self.output =sigmoid(self.input_sum)
       return self.output
 

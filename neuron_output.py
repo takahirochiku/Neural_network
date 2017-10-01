@@ -20,6 +20,7 @@ class NeuralNetwork:
     def commit(self, input_data):
         for data in input_data:
             self.neuron.setInput(data)
+        #for構文でdataを加算し切ったinput_sumをoutputに代入する処理
         return self.neuron.getOutput()
 
 # ニュートラルネットワークのインスタンス

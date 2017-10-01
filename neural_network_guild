@@ -30,34 +30,45 @@ class NeuralNetwork:
 
     #各層の宣言
     input_layer =[0.0,0.0,1.0]
-    middle_layer=[Neuron(),Neuron(),1,0]
+    middle_layer=[Neuron(),Neuron(),1.0]
     output_layer = Neuron()
 
     # 実行
     def commit(self, input_data):
         # 各層のリセット
+        #　input_layerにtrail_dataに格納された緯度,経度を代入する処理
         self.input_layer[0] = input_data[0]
         self.input_layer[1] = input_data[1]
 
+        #　中間層の緯度,経度を0にする
         self.middle_layer[0].reset()
         self.middle_layer[1].reset()
 
+        #　出力層の緯度,経度を0にする
         self.output_layer.reset()
 
         #入力層⇒中間層
-        self.middle_layer[0].setInput(self.input_layer[0] * self.w_im[0][0])
+        #入力層1つ目のニューロンに入力値2つ*重み+バイアス*重みの総和を加算する
+        #バイアス*重みも加算する
+        self.midle_layer[0].setInput(self.input_layer[0] * self.w_im[0][0])
         self.middle_layer[0].setInput(self.input_layer[1] * self.w_im[1][0])
         self.middle_layer[0].setInput(self.input_layer[2] * self.w_im[2][0])
 
+        # 入力層2つ目のニューロンに入力値2つ*重み+バイアス*重みの総和を代入する
+        #　重みが異なる為、総和も異なる
         self.middle_layer[1].setInput(self.input_layer[0] * self.w_im[0][1])
         self.middle_layer[1].setInput(self.input_layer[1] * self.w_im[1][1])
         self.middle_layer[1].setInput(self.input_layer[2] * self.w_im[2][1])
 
         #中間層⇒出力層
+        #中間層の2つのニューロンそれぞれで、シグモイド関数で入力値の総和を算出する(a)
+        #中間層の2つのaをsetInputで加算する
+        #バイアス*重みも加算する  　
         self.output_layer.setInput(self.middle_layer[0].getOutput()*self.w_mo[0])
         self.output_layer.setInput(self.middle_layer[1].getOutput()*self.w_mo[1])
         self.output_layer.setInput(self.middle_layer[2] * self.w_mo[2])
 
+        #出力層の入力値をシグモイド関数で合計する
         return self.output_layer.getOutput()
 
 # 基準点(データの範囲を0.0～1.0の範囲に収める為)
